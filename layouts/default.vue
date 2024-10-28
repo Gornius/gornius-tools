@@ -7,8 +7,11 @@
     </div>
     <div class="flex-grow flex flex-row divide-x border-border">
       <div class="flex-grow max-w-sm p-4">SideNav</div>
-      <div class="flex-grow p-4">Main</div>
+      <div class="flex-grow p-4">
+        <main>
+          <slot />
+        </main>
+      </div>
     </div>
-    <slot />
   </div>
 </template>
