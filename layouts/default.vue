@@ -8,7 +8,7 @@
     <div class="flex-grow flex flex-row divide-x border-border">
       <div class="flex-grow max-w-sm p-4">SideNav</div>
       <div class="flex-grow p-4">
-        <main>
+        <main class="h-full">
           <slot />
         </main>
       </div>
