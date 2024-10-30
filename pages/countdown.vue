@@ -19,7 +19,9 @@ if (!searchParams.date) {
   searchParams.date = nowDate.toISOString();
 }
 
-const { title } = toRefs(searchParams);
+const { title } = toRefs(searchParams) as {
+  title: Ref<string>;
+};
 const date = computed({
   get() {
     return new Date(searchParams.date as string);
@@ -83,7 +85,7 @@ const dateDiffPartsFormatted = computed(() => {
     </Dialog>
     <EditableDiv
       placeholder="click here to set event title"
-      v-model="title as string"
+      v-model="title"
     ></EditableDiv>
   </div>
 </template>
