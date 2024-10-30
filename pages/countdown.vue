@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Input } from "~/components/ui/input";
-import Textarea from "~/components/ui/textarea/Textarea.vue";
+import Dialog from "~/components/ui/dialog/Dialog.vue";
+import DialogTrigger from "~/components/ui/dialog/DialogTrigger.vue";
+import DialogContent from "~/components/ui/dialog/DialogContent.vue";
 
 const searchParams = useUrlSearchParams("history");
 
@@ -18,12 +19,22 @@ if (!searchParams.date) {
   searchParams.date = nowDate.toISOString();
 }
 
+const { title } = toRefs(searchParams);
+const date = computed({
+  get() {
+    return new Date(searchParams.date as string);
+  },
+  set(date: Date) {
+    searchParams.date = date.toISOString();
+  },
+});
+const { dateString, timeString } = useSplitDateAndTime(date);
+
 const now = useNow({
   interval: 1000 / 30,
 });
-const dateFromParams = computed(() => new Date(searchParams.date as string));
 const dateDiff = computed(
-  () => (now.value.getTime() - dateFromParams.value.getTime()) / 1000
+  () => (now.value.getTime() - date.value.getTime()) / 1000
 );
 const dateDiffParts = computed(() => {
   const diff = dateDiff.value;
@@ -50,12 +61,51 @@ const dateDiffPartsFormatted = computed(() => {
 
 <template>
   <div class="h-full flex flex-col items-center justify-center gap-2">
-    <span class="text-6xl mb-8">
-      {{ dateDiffPartsFormatted }}
-    </span>
+    <Dialog>
+      <DialogTrigger as-child>
+        <span class="text-6xl mb-8 cursor-pointer">
+          {{ dateDiffPartsFormatted }}
+        </span>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogTitle>Set time</DialogTitle>
+        <Input
+          v-model="dateString"
+          @click="(e: any) => e.target.showPicker()"
+          type="date"
+        />
+        <Input
+          v-model="timeString"
+          @click="(e: any) => e.target.showPicker()"
+          type="time"
+        />
+      </DialogContent>
+    </Dialog>
     <EditableDiv
       placeholder="click here to set event title"
-      v-model="searchParams.title as string"
+      v-model="title as string"
     ></EditableDiv>
   </div>
 </template>
+
+<style scoped>
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type="date"] {
+  -moz-appearance: textfield; /* Removes the native date picker icon */
+  appearance: none;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type="time"] {
+  -moz-appearance: textfield; /* Removes the native date picker icon */
+  appearance: none;
+}
+</style>
