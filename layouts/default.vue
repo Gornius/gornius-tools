@@ -7,7 +7,7 @@ const menuHidden = computed(() => !menuClosed.value && smallMode.value);
 </script>
 <template>
   <div class="flex flex-col h-full min-h-dvh overflow-hidden">
-    <div class="flex flex-row gap-4 border-b border-b-border p-4">
+    <div class="flex flex-row gap-4 border-b p-4 bg-secondary">
       <div
         :hidden="!smallMode"
         class="cursor-pointer"
@@ -15,15 +15,22 @@ const menuHidden = computed(() => !menuClosed.value && smallMode.value);
       >
         🍔
       </div>
-      <NuxtLink to="/"><div>Gornius Toolbox</div></NuxtLink>
+      <NuxtLink class="w-full" to="/"><div>Gornius Toolbox</div></NuxtLink>
       <div class="flex-grow"></div>
     </div>
-    <div class="flex-grow flex flex-row divide-x border-border">
+    <div class="flex-grow flex flex-row divide-x">
       <div
-        class="flex-grow w-full max-w-sm flex-shrink-0 p-4"
+        class="flex-grow w-full max-w-xs flex-shrink-0 p-4"
         :hidden="menuHidden"
       >
-        <NuxtLink active-class="font-bold" to="/countdown">Countdown</NuxtLink>
+        <div class="flex flex-col gap-3">
+          <NuxtLink
+            class="font-bold"
+            active-class="text-primary"
+            to="/countdown"
+            >Countdown</NuxtLink
+          >
+        </div>
       </div>
       <div class="flex-grow p-4 overflow-auto">
         <main class="h-full">
