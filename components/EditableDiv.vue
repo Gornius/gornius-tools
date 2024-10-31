@@ -21,7 +21,12 @@ if (!content.value) {
 }
 </script>
 <template>
-  <div @blur="onBlur" @input="onInput" contenteditable="true">
+  <div
+    class="outline-none focus:outline-ring caret-primary rounded-sm p-1"
+    @blur="onBlur"
+    @input="onInput"
+    contenteditable="true"
+  >
     {{ content }}
   </div>
 </template>
