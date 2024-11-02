@@ -1,5 +1,5 @@
 export type Timer = {
-  lengthSeconds: number;
+  lengthMsecs: number;
   endDate?: Date;
   name: string;
 };
