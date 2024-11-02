@@ -4,6 +4,26 @@ const smallMode = computed(() => windowSize.width.value <= 800);
 
 const menuClosed = ref<boolean>(false);
 const menuHidden = computed(() => !menuClosed.value && smallMode.value);
+
+type MenuItem = {
+  title: string;
+  url: string;
+};
+
+const menuItems: MenuItem[] = [
+  {
+    title: "About",
+    url: "/",
+  },
+  {
+    title: "Countdown",
+    url: "/countdown",
+  },
+  {
+    title: "Timer",
+    url: "/timer",
+  },
+];
 </script>
 <template>
   <div class="flex flex-col h-full min-h-dvh overflow-hidden">
@@ -25,10 +45,12 @@ const menuHidden = computed(() => !menuClosed.value && smallMode.value);
       >
         <div class="flex flex-col gap-3">
           <NuxtLink
+            v-for="menuItem of menuItems"
+            :key="menuItem.url"
             class="font-bold"
             active-class="text-primary"
-            to="/countdown"
-            >Countdown</NuxtLink
+            :to="menuItem.url"
+            >{{ menuItem.title }}</NuxtLink
           >
         </div>
       </div>
