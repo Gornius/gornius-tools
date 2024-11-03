@@ -43,8 +43,43 @@ function onStartPauseClick() {
 
   model.value.endDate = new Date(props.now.getTime() + model.value.lengthMsecs);
 }
+
+function showAlert(
+  props: {
+    withSound?: boolean;
+  } = { withSound: true }
+) {
+  model.value.timerEnded = true;
+  alertOpened.value = true;
+  if (props.withSound === true) {
+    try {
+      const audio = new Audio("/sfx/finish.mp3");
+      audio.play();
+    } catch (e: any) {
+      // Exception is being thrown here, but everything works as should
+    }
+  }
+}
+
+const alertOpened = ref<boolean>(false);
+watch(timeRemainingMsecs, async (val) => {
+  if (val === 0 && model.value.timerEnded !== true) {
+    showAlert();
+  }
+});
+
+if (model.value.timerEnded !== true && timeRemainingMsecs.value === 0) {
+  showAlert({ withSound: false });
+}
+
+watch(alertOpened, (to, from) => {
+  if (from === true && to === false) {
+    emits("delete", model.value);
+  }
+});
 </script>
 <template>
+  <TimerAlert v-model="alertOpened" :title="model.name" />
   <div
     class="w-full rounded-md bg-secondary p-2 flex flex-row items-center justify-end gap-3 border-border border pl-4"
   >
