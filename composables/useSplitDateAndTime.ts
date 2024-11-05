@@ -24,7 +24,7 @@ export const useSplitDateAndTime = (dateRef: Ref<Date>) => {
     set(time: string) {
       dateRef.value.setHours(parseInt(time.split(":")[0]));
       dateRef.value.setMinutes(parseInt(time.split(":")[1]));
-      triggerRef(dateRef);
+      dateRef.value = dateRef.value; // <- dirty fix to propagate reactive changes beyond this computed, fix later
     },
   });
   return {
