@@ -35,7 +35,7 @@ function onStartStop() {
 }
 function onReset() {
   pausedTime.value = 0;
-  startedDate.value = now.value;
+  startedDate.value = undefined;
 }
 </script>
 
