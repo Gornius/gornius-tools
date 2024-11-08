@@ -23,6 +23,10 @@ const menuItems: MenuItem[] = [
     title: "Timer",
     url: "/timer",
   },
+  {
+    title: "Stopwatch",
+    url: "/stopwatch",
+  },
 ];
 </script>
 <template>
