@@ -5,12 +5,31 @@ import { timeLengthMsecToString } from "~/util/strconv";
 const model = defineModel<LapListRecord[]>({
   required: true,
 });
+
+const containerDiv = ref<HTMLDivElement>();
+
+function scrollToBottom() {
+  if (!containerDiv.value) {
+    return;
+  }
+  containerDiv.value.scrollTop = containerDiv.value.scrollHeight;
+}
+
+watch(model.value, async () => {
+  await nextTick();
+  scrollToBottom();
+});
 </script>
 <template>
   <div
-    class="flex flex-col h-36 overflow-y-auto overflow-x-hidden w-full rounded-sm border border-input p-1"
+    ref="containerDiv"
+    class="flex flex-col h-36 overflow-y-auto overflow-x-hidden w-full rounded-sm border border-input"
   >
-    <div v-for="lap of model" :key="lap.title" class="p-1 flex flex-row">
+    <div
+      v-for="lap of model"
+      :key="lap.title"
+      class="py-1 px-2 flex flex-row odd:bg-input"
+    >
       <div>
         {{ lap.title }}
       </div>
